@@ -1,4 +1,4 @@
-from schemer import *
+from schemer import Database
 
 db = Database('manager')
 
@@ -19,3 +19,6 @@ commits.VarChar('ShaShort')
 commits.Text('Comment')
 
 print db
+
+output = file('output/output.sh', 'w')
+db.write_script(output)

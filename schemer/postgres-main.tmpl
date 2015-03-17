@@ -1,0 +1,15 @@
+#!/bin/bash
+
+createdb {{ dbname }} && echo "OK"
+
+psql {{ dbname }} <<EOF
+
+{% for table in tables %}
+CREATE TABLE {{ table.name }} (
+{% for field in table.fields %}    {{ field.name }} {{ field.postgres }}{% if not loop.last %},
+{% endif %}{% endfor %}
+);
+{% endfor %}
+
+
+EOF
