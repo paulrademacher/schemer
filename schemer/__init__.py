@@ -1,21 +1,40 @@
-all_tables = []
+class Database(object):
+    def __init__(self, name):
+        self.name = name
+        self.tables = []
+
+    def Table(self, name):
+        table = Table(name)
+        self.tables.append(table)
+        return table
+
+    def __repr__(self):
+        return str(self)
+
+    def __str__(self):
+        return "db(%s):\n  %s" % (self.name, '\n  '.join([str(t) for t in self.tables]))
+
 
 class Table(object):
     def __init__(self, name):
         self.name = name
         self.fields = []
 
-        global all_tables
-        all_tables.append(self)
-
     def AddField(self, obj):
         self.fields.append(obj)
+
+    def __repr__(self):
+        return str(self)
+
+    def __str__(self):
+        return "table(%s): %s" % (self.name, self.fields)
 
 
 def CreateFieldMethod(postgres):
     def FieldMethod(self, name):
         self.AddField({'name': name, 'postgres': postgres})
     return FieldMethod
+
 
 Table.SmallInt = CreateFieldMethod('smallint')
 Table.Integer = CreateFieldMethod('integer')
@@ -39,5 +58,3 @@ Table.TimeStamp = CreateFieldMethod('timestamp')
 Table.TimeStampTz = CreateFieldMethod('timestamptz')
 Table.Uuid = CreateFieldMethod('uuid')
 
-def OutputAll():
-    print all_tables

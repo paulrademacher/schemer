@@ -1,13 +1,21 @@
 from schemer import *
 
-Person = Table('Person')
+db = Database('manager')
 
-Person.SmallInt('age')
-Person.VarChar('firstname')
-Person.VarChar('lastname')
+repos = db.Table('repos')
+repos.VarChar('Name')
+repos.VarChar('UserName')
+repos.VarChar('Url')  # len
+repos.VarChar('RemoteOriginUrl')
+repos.Boolean('Private')
 
-print Person
-print Person.name
-print Person.fields
+users = db.Table('users')
+users.VarChar('UserName')
+users.VarChar('Email')
 
-OutputAll()
+commits = db.Table('commits')
+commits.VarChar('ShaLong')
+commits.VarChar('ShaShort')
+commits.Text('Comment')
+
+print db
