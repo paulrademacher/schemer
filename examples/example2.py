@@ -1,6 +1,6 @@
 from schemer import Database
 
-db = Database('manager')
+db = Database('schemer')
 
 repos = db.Table('repos')
 repos.VarChar('Name')
