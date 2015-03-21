@@ -26,9 +26,7 @@ def parse_postgres_output(output, has_name_row):
         lines = lines[2:]  # Skip the ---+----+---- divider
 
     headers = [h.strip() for h in headers_raw.split('|')]
-    print headers
-    print len(lines)
-    data = []
+    rows = []
     for line in lines:
         if (line.count('|') + 1) != len(headers):
             print "THIS IS NOT FIELDS:", line
@@ -37,11 +35,11 @@ def parse_postgres_output(output, has_name_row):
         fields = [f.strip() for f in line.split('|')]
         row_object = {}
         for (index, field) in enumerate(fields):
-            row_object[headers[index]] = field
-        data.append(row_object)
+            if field != '':
+                row_object[headers[index]] = field
+        rows.append(row_object)
 
-    print "----"
-    return data
+    return {'headers': headers, 'rows': rows}
 
 print parse_postgres_output(TEST, False)
 print "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
