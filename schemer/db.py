@@ -37,7 +37,7 @@ class Table(object):
 
 def CreateFieldMethod(postgres, postgres_code):
     def FieldMethod(self, name):
-        self.AddField({'name': name, 'postgres': postgres, 'postgres_code': postgres_code})
+        self.AddField({'name': name, 'postgres': postgres})
     return FieldMethod
 
 
@@ -64,4 +64,3 @@ Table.TimeTz = CreateFieldMethod('TIMETZ', 1266)
 Table.TimeStamp = CreateFieldMethod('TIMESTAMP', 1114)
 Table.TimeStampTz = CreateFieldMethod('TIMESTAMPTZ', 1184)
 Table.Uuid = CreateFieldMethod('UUID', 2950)
-
