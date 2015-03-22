@@ -45,3 +45,12 @@ print db
 
 output = file('output/output.sh', 'w')
 db.write_script(output)
+
+from schemer import postgres
+db_from_disk = postgres.parse_existing_db('schemer')
+db.compare(db_from_disk)
+
+new_table = db.Table('new_table')
+new_table2 = db.Table('new_table2')
+oids.Text("yet_another_field")
+db.compare(db_from_disk)
