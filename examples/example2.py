@@ -1,4 +1,8 @@
+import pprint
+
 from schemer import Database
+from schemer import postgres
+from schemer import diff
 
 db = Database('schemer')
 
@@ -13,7 +17,7 @@ users = db.Table('users')
 users.VarChar('UserName')
 users.VarChar('Email')
 
-commits = db.Table('commits')
+commits = db.Table('commits2')
 commits.VarChar('ShaLong')
 commits.VarChar('ShaShort')
 commits.Text('Comment')
@@ -34,7 +38,7 @@ oids.VarChar('VarChar_field')
 oids.Char('Char_field')
 oids.Text('Text_field')
 oids.Boolean('Boolean_field')
-oids.Date('Date_field')
+#oids.Date('Date_field')
 oids.Json('Json_field')
 oids.TimeTz('TimeTz_field')
 oids.TimeStamp('TimeStamp_field')
@@ -46,11 +50,16 @@ print db
 output = file('output/output.sh', 'w')
 db.write_script(output)
 
-from schemer import postgres
 db_from_disk = postgres.parse_existing_db('schemer')
-db.compare(db_from_disk)
+d = diff.compare_databases(db_from_disk, db)
 
 new_table = db.Table('new_table')
+new_table.Boolean("some_new_boolean")
+new_table.Integer("some_new_int")
 new_table2 = db.Table('new_table2')
+new_table2.Boolean("some_new_boolean")
 oids.Text("yet_another_field")
-db.compare(db_from_disk)
+d = diff.compare_databases(db_from_disk, db)
+
+print "\nDIFF:"
+pprint.pprint(d.serialize())
