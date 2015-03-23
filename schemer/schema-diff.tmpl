@@ -1,0 +1,28 @@
+#!/bin/bash
+
+createdb {{ diff.db_name }} && echo "OK"
+
+psql {{ diff.db_name }} <<EOF
+
+{% for table in diff.tables_added %}
+CREATE TABLE {{ table.name }} (
+{% for field in table.fields %}    {{ field.name }} {{ field.postgres }}{% if not loop.last %},
+{% endif %}{% endfor %}
+);{% endfor %}
+
+{% for table in diff.tables_deleted %} DROP TABLE {{ table.name }};
+{% endfor %}
+
+{% for rename in diff.tables_renamed %}ALTER TABLE {{ rename.old_name }} RENAME TO {{ rename.new_name }};
+{% endfor %}
+
+/*
+FIELDS_ADDED: {{ diff.fields_added }}
+
+FIELDS_DELETED: {{ diff.fields_deleted }}
+
+FIELDS_CHANGED: {{ diff.fields_changed }}
+
+*/
+
+EOF

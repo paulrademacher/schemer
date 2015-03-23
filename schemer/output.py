@@ -3,6 +3,8 @@ import os
 
 import jinja2
 
+import diff
+
 # http://stackoverflow.com/a/4060259
 __location__ = os.path.realpath(os.path.join(os.getcwd(),
     os.path.dirname(__file__)))

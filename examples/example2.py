@@ -17,7 +17,7 @@ users = db.Table('users')
 users.VarChar('UserName')
 users.VarChar('Email')
 
-commits = db.Table('commits2')
+commits = db.Table('commits')
 commits.VarChar('ShaLong')
 commits.VarChar('ShaShort')
 commits.Text('Comment')
@@ -38,7 +38,7 @@ oids.VarChar('VarChar_field')
 oids.Char('Char_field')
 oids.Text('Text_field')
 oids.Boolean('Boolean_field')
-#oids.Date('Date_field')
+oids.Date('Date_field')
 oids.Json('Json_field')
 oids.TimeTz('TimeTz_field')
 oids.TimeStamp('TimeStamp_field')
@@ -63,3 +63,7 @@ d = diff.compare_databases(db_from_disk, db)
 
 print "\nDIFF:"
 pprint.pprint(d.serialize())
+
+diff_output = file('output/diff_output.sh', 'w')
+d.write_script(diff_output)
+
