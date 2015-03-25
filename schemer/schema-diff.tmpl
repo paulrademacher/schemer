@@ -16,10 +16,15 @@ CREATE TABLE {{ table.name }} (
 {% for rename in diff.tables_renamed %}ALTER TABLE {{ rename.old_name }} RENAME TO {{ rename.new_name }};
 {% endfor %}
 
-/*
-FIELDS_ADDED: {{ diff.fields_added }}
+{% for field_diff in diff.fields_added %}
+ALTER TABLE {{ field_diff.table_name }} ADD COLUMN {{ field_diff.field.name }} {{ field_diff.field.postgres }};
+{% endfor %}
 
-FIELDS_DELETED: {{ diff.fields_deleted }}
+{% for field_diff in diff.fields_deleted %}
+ALTER TABLE {{ field_diff.table_name }} DROP COLUMN {{ field_diff.field.name }};
+{% endfor %}
+
+/*
 
 FIELDS_CHANGED: {{ diff.fields_changed }}
 

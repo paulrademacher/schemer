@@ -59,6 +59,7 @@ new_table.Integer("some_new_int")
 new_table2 = db.Table('new_table2')
 new_table2.Boolean("some_new_boolean")
 oids.Text("yet_another_field")
+oids.Integer("yet_another_field_int")
 d = diff.compare_databases(db_from_disk, db)
 
 print "\nDIFF:"

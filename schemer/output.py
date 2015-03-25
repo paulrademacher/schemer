@@ -1,5 +1,6 @@
 from __future__ import print_function
 import os
+import re
 
 import jinja2
 
@@ -10,10 +11,14 @@ __location__ = os.path.realpath(os.path.join(os.getcwd(),
     os.path.dirname(__file__)))
 
 
+def collapse_multiple_newline(s):
+    return re.sub(r'\n\n+', '\n\n', s)
+
+
 def write_template(template_name, data):
     contents = open(os.path.join(__location__, template_name)).read()
     template = jinja2.Template(contents)
-    return template.render(**data)
+    return collapse_multiple_newline(template.render(**data))
 
 
 def test():

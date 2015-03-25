@@ -33,8 +33,8 @@ class SchemaDiff(object):
         self.tables_deleted = []  # Array of Table.
         self.tables_changed = []
         self.tables_renamed = []  # Array of Rename.
-        self.fields_added = []  # Array of dict.
-        self.fields_deleted = []  # Array of string.
+        self.fields_added = []  # Array of FieldDiff.
+        self.fields_deleted = []  # Array of FieldDiff.
         self.fields_changed = []
 
     def serialize(self):
